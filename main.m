@@ -1,24 +1,19 @@
 clc; clear; close all;
 
-%% Load MRI and CT Images
 img1 = im2double(imread('5(A).png'));  % MRI Image
 img2 = im2double(imread('5(B).png'));  % CT Image
 
-% Resize to the same size
 img1 = imresize(img1, [256, 256]);
 img2 = imresize(img2, [256, 256]);
 
-%% Display Input Images
 figure;
 subplot(1,2,1); imshow(img1); title('MRI Image');
 subplot(1,2,2); imshow(img2); title('CT Image');
 
-%% Step 1: Contourlet Transform Decomposition
+% Contourlet Transform Decomposition
 pyr_levels = 3;
 [low1, high1] = contourlet_decompose(img1, pyr_levels);
 [low2, high2] = contourlet_decompose(img2, pyr_levels);
-
-%% Step 2: Fusion
 
 % Low-frequency fusion (Weighted average)
 weight1 = 0.5;
@@ -41,7 +36,6 @@ end
 %% Step 3: Reconstruct the Fused Image
 fused_image = contourlet_reconstruct(fused_low, fused_high);
 
-%% Step 4: Display Results
 figure;
 subplot(1,3,1); imshow(img1); title('MRI Image');
 subplot(1,3,2); imshow(img2); title('CT Image');
@@ -49,9 +43,6 @@ subplot(1,3,3); imshow(fused_image); title('Fused Image');
 
 imwrite(fused_image, "C:\Users\Shweta Sharma\Desktop\Objective Metrics\02\05.png");
 
-%% ------------ Supporting Functions ------------
-
-% Contourlet Decomposition
 function [low, high] = contourlet_decompose(img, levels)
     low = img;
     high = cell(1, levels);
@@ -62,7 +53,6 @@ function [low, high] = contourlet_decompose(img, levels)
     end
 end
 
-% Contourlet Reconstruction
 function img = contourlet_reconstruct(low, high)
     img = low;
     for i = length(high):-1:1
@@ -70,7 +60,6 @@ function img = contourlet_reconstruct(low, high)
     end
 end
 
-% Curvature Filter (PDE-based)
 function output = curvature_filter(img, iterations, dt)
     img = double(img);
     for k = 1:iterations
@@ -86,5 +75,6 @@ function output = curvature_filter(img, iterations, dt)
         curvature = Nxx + Nyy;
         img = img + dt * curvature;
     end
-    output = max(min(img, 1), 0);  % Clip to [0,1]
+    output = max(min(img, 1), 0);  
 end
+
