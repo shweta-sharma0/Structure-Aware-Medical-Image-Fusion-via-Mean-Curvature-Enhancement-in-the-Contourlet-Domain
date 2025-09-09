@@ -5,8 +5,8 @@ The fusion method consists of the following steps:
 1. Contourlet Decomposition: Images are decomposed into low-frequency (approximation) and high-frequency (detail) components using a multiscale Laplacian-like method.
 2. Fusion Strategy:
    - Low-frequency components are fused using a weighted average.
+   - The highest-frequency layer (Layer 3) is further enhanced using a mean curvature filter to sharpen anatomical edges.
    - High-frequency components are fused using a max-absolute selection rule.
-   - The highest-frequency layer is further enhanced using a mean curvature flow filter to sharpen anatomical edges.
 3. Image Reconstruction: The fused image is reconstructed from the combined low- and high-frequency layers.
 4. Output: The final fused image is displayed and saved.
 
@@ -22,7 +22,7 @@ The fusion method consists of the following steps:
 - Image Processing Toolbox
 
 Dataset Used
-- "https://github.com/dawachyophel/medical-fusion/tree/main/MyDataset"
+- https://github.com/dawachyophel/medical-fusion/tree/main/MyDataset
 - https://www.med.harvard.edu/aanlib/"
 
 
